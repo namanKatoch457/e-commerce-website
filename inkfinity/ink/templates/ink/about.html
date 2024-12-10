@@ -1,0 +1,159 @@
+{% extends "ink/base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock title %}
+
+{% block content %}
+<div class="about-container">
+    <section class="intro">
+        <h1>Welcome to BuyNest</h1>
+        <p>Your go-to place for stylish, everyday wear. At BuyNest, we believe that fashion should be simple yet striking, and we are here to make sure you look your best with our exclusive t-shirt collections.</p>
+    </section>
+
+    <section class="mission">
+        <h2>Our Mission</h2>
+        <p>We’re on a mission to make fashion fun, sustainable, and affordable for everyone. Our goal is to provide high-quality, trendy t-shirts that inspire confidence and style while making a positive impact on the environment.</p>
+    </section>
+
+    <section class="team">
+        <h2>Meet The Team</h2>
+        <div class="team-members">
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Team Member">
+                <h3>you name</h3>
+                <p>CEO & Founder</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Team Member">
+                <h3>Team member</h3>
+                <p>Creative Director</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="Team Member">
+                <h3>Team member</h3>
+                <p>Operations Manager</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="vision">
+        <h2>Our Vision</h2>
+        <p>At BuyNest, we aim to become a global leader in the fashion industry by combining creativity with sustainability. We envision a world where every individual can express themselves confidently through fashion, without compromising on quality or the planet.</p>
+    </section>
+</div>
+{% endblock content %}
+
+{% block css %}
+<style>
+    body {
+        background-color: #f4f4f9;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .about-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px;
+    }
+
+    .intro {
+        text-align: center;
+        padding: 50px;
+        background: #00bcd4;
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .intro h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .intro p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .mission, .vision {
+        margin: 60px 0;
+        text-align: center;
+    }
+
+    .mission h2, .vision h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #00bcd4;
+        font-weight: bold;
+    }
+
+    .mission p, .vision p {
+        font-size: 1.2rem;
+        max-width: 900px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .team {
+        text-align: center;
+        padding: 50px 0;
+        background: #333;
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .team h2 {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+
+    .team-members {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .team-member {
+        text-align: center;
+        max-width: 200px;
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .team-member img:hover {
+        transform: scale(1.1);
+    }
+
+    .team-member h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #00bcd4;
+        font-weight: 600;
+    }
+
+    .team-member p {
+        font-size: 1rem;
+        color: #ddd;
+    }
+
+    @media (max-width: 768px) {
+        .team-members {
+            flex-direction: column;
+            gap: 40px;
+        }
+    }
+</style>
+{% endblock css %}
