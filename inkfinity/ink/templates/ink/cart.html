@@ -1,0 +1,137 @@
+{% extends "ink/base.html" %}
+{% load cart_extras %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+
+{% block content %}
+<h2>Your Cart</h2>
+
+<!-- Cart Table -->
+<div class="cart-container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Image</th>
+        <th>Action</th> <!-- Column for Delete Button -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart_items %}
+      <tr>
+        <td class="product-name">{{ item.product.product_name }}</td> <!-- Styled Product Name -->
+        <td>{{ item.quantity }}</td>
+        <td>₹{{ item.product.price }}</td>
+        <td>₹{{ item.product.price|multiply:item.quantity|floatformat:2 }}</td>
+        <td><img src="/media/{{ item.product.image }}" alt="{{ item.product.product_name }}" class="product-image"></td>
+        <td>
+          <!-- Delete Button (Pass cart_item id to the view for deletion) -->
+          <form action="{% url 'delete_cart_item' item.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Total Price -->
+<div class="total-price">
+  <h4>Total Price: ₹{{ total_price|floatformat:2 }}</h4>
+</div>
+
+<!-- Checkout Button -->
+<div class="checkout-btn-container">
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+  </div>
+
+{% endblock content %}
+
+{% block css %}
+<style>
+  .cart-container {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  .table th {
+    background-color: #007BFF;
+    color: white;
+  }
+
+  .table td {
+    background-color: #fff;
+  }
+
+  .product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    text-transform: capitalize;
+  }
+
+  .product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .total-price {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007BFF;
+  }
+
+  h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .checkout-btn {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+  }
+
+  .btn-danger {
+    background-color: #FF5733;
+    color: white;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+</style>
+{% endblock css %}

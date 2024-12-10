@@ -1,0 +1,150 @@
+{% extends "ink/base.html" %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+{% block css %}
+.col-md-3 {
+  display: inline-block;
+  margin-left: -4px;
+}
+
+.carousel-indicators .active {
+  background-color: blue;
+}
+
+.col-md-3 img {
+  max-width: 227px;
+  height: 242px;
+}
+
+body .carousel-indicator li {
+  background-color: blue;
+}
+
+body .carousel-indicators {
+  bottom: 0;
+}
+
+body .carousel-control-prev-icon,
+body .carousel-control-next-icon {
+  background-color: blue;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  top: auto;
+  bottom: auto;
+  padding-top: 222px;
+}
+
+body .no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Make sure the items inside the carousel are aligned properly */
+.carousel-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.carousel-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.carousel-item .col-xs-3 {
+  width: 23%;
+  margin-bottom: 20px; /* Space between items */
+}
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+  <!-- Slideshow starts here -->
+  {% for product, range, nSlides in allProds %}
+  <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+  <div class="row">
+    <div id="demo{{ forloop.counter }}" class="carousel slide my-3" data-ride="carousel">
+      <!-- Carousel indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#demo{{ forloop.counter }}" data-slide-to="0" class="active"></li>
+        {% for i in range %}
+        <li data-target="#demo{{ forloop.counter }}" data-slide-to="{{ i }}"></li>
+        {% endfor %}
+      </ol>
+
+      <!-- Carousel items -->
+      <div class="carousel-inner no-padding">
+        <div class="carousel-item active">
+          <div class="row">
+            {% for i in product %}
+            <div class="col-xs-3 col-sm-3 col-md-3">
+              <div class="align-item-center" style="width: 18rem;">
+                <a href="/ink/products/{{i.id}}">
+                  <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
+                  <p class="card-text">{{i.desc|slice:"0:40"}}...</p>
+                  <span id="divpr{{i.id}}" class="divpr">
+                    <button id="pr{{ i.id }}" class="btn btn-primary cart" onclick="addToCart({{ i.id }})">Add To Cart</button>
+                  </span>
+                  <a href="/ink/products/{{i.id}}">
+                    <button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% if forloop.counter|divisibleby:4 and not forloop.last %}
+              </div><div class="row"> <!-- Close the row and open a new one every 4 items -->
+            {% endif %}
+            {% endfor %}
+          </div> <!-- Close the last row -->
+        </div>
+      </div>
+
+      <!-- Left and right controls for the slide -->
+      <a class="carousel-control-prev" href="#demo{{ forloop.counter }}" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#demo{{ forloop.counter }}" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}
+
+{% block js %}
+function addToCart(productId) {
+  fetch(`/ink/add_to_cart/${productId}/`, {
+    method: 'GET', // Or 'POST' if you update the view to handle POST requests
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        alert(data.message);
+      } else {
+        alert(data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error adding to cart:', error);
+      alert('Something went wrong. Please try again.');
+    });
+}
+{% endblock js %}

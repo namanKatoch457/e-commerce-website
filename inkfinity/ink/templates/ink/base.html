@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}BuyNest{% endblock title %}</title>
+  
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- Custom CSS -->
+  <style>
+    {% block css %}
+    {% endblock css %}
+  </style>
+</head>
+<body>
+  {% load static %}
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      
+      <!-- Left-aligned Links -->
+      <div class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/ink/about">About Us</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/ink/contact">Contact Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/ink/cart">Cart</a>
+        </li>
+      </div>
+
+      <!-- Centered Brand and Logo -->
+      <a class="navbar-brand mx-auto" href="/ink/">
+        <img src="{% static '#' %}" alt="your Logo" style="width: 35px; height: 35px; margin-right: 10px;">
+        BuyNest
+      </a>
+
+      <!-- Right-aligned Logout and Username -->
+      <div class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+          <span class="nav-link text-center font-weight-bold" style="color: #f8f9fa; font-size: 1.2rem;">
+            Hello, {{ user.username }}!
+          </span>
+          <form method="post" action="{% url 'logout' %}" class="ml-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" style="font-size: 1rem;">
+              Logout
+            </button>
+          </form>
+        {% else %}
+          <a class="btn btn-primary mx-2" href="{% url 'login' %}" style="font-size: 1.2rem;">
+            Login
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Messages (if any) -->
+  {% if messages %}
+    <div class="container mt-3">
+      {% for message in messages %}
+        <div class="alert alert-info">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Page Content -->
+  <div class="container mt-4">
+    {% block content %}
+    {% endblock content %}
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb5K5g7fS5SE/6QoxX6J81NzKKK/Qq+W3ROUB" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    {% block js %}
+    {% endblock js %}
+  </script>
+</body>
+</html>

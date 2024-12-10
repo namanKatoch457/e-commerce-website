@@ -1,0 +1,99 @@
+{% extends "ink/base.html" %}
+{% load static %}
+{% block title %}view{% endblock title %}
+{% block css %}
+    .card-img-top {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-img-top:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .btn-outline-primary {
+        border-color: #007bff;
+        color: #007bff;
+        transition: background-color 0.3s ease;
+    }
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .product-details {
+        margin-top: 20px;
+    }
+    .product-details h5 {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    .product-details p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Left Section: Image & Action Buttons -->
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0">
+                <!-- Product Image with hover effect -->
+                <img src="/media/{{ products.image }}" class="card-img-top" alt="{{ products.product_name }}" width="350px" height="385px">
+                <div class="card-body text-center">
+                    <div class="d-flex justify-content-center mt-3">
+                        <span id="divpr{{ products.id }}" class="divpr">
+                            <button id="pr{{ products.id }}" class="btn btn-primary cart" onclick="addToCart({{ products.id }})">Add To Cart</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section: Product Details -->
+        <div class="col-md-8">
+            <div class="product-details">
+                <h5 class="display-4 font-weight-bold">{{ products.product_name }}</h5>
+                <p class="text-muted"><b>Rs. {{ products.price }}</b></p>
+                <p class="text-justify">{{ products.desc }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+function addToCart(productId) {
+    fetch(`/ink/add_to_cart/${productId}/`, {
+        method: 'GET', // Or 'POST' if you update the view to handle POST requests
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error adding to cart:', error);
+        alert('Something went wrong. Please try again.');
+    });
+}
+{% endblock js %}

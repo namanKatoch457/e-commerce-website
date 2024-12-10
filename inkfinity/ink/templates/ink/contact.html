@@ -1,0 +1,26 @@
+{% extends "ink/base.html" %}
+{% load static %}
+{% block title %}contact{% endblock title %}
+{% block content %}
+<form method = "post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="enter your name" >
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Phone Number</label>
+        <input type="text" class="form-control" name="phone" id="phone" placeholder="enter your phone number" >
+      </div>
+      <label class="form-label">how can i help you!!</label>
+      <input type="text" class="form-control" id="name" name="desc" placeholder="please tell your problem here..." >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock content %}
